@@ -14,9 +14,19 @@ type ArticleQuery = {
   readonly responseType: typeof src_protos_pagedList_pb.PagedList;
 };
 
+type ArticleAdd = {
+  readonly methodName: string;
+  readonly service: typeof Article;
+  readonly requestStream: false;
+  readonly responseStream: false;
+  readonly requestType: typeof src_protos_article_pb.AddReq;
+  readonly responseType: typeof src_protos_article_pb.ArticleReply;
+};
+
 export class Article {
   static readonly serviceName: string;
   static readonly Query: ArticleQuery;
+  static readonly Add: ArticleAdd;
 }
 
 export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
@@ -59,6 +69,15 @@ export class ArticleClient {
   query(
     requestMessage: src_protos_article_pb.QueryReq,
     callback: (error: ServiceError|null, responseMessage: src_protos_pagedList_pb.PagedList|null) => void
+  ): UnaryResponse;
+  add(
+    requestMessage: src_protos_article_pb.AddReq,
+    metadata: grpc.Metadata,
+    callback: (error: ServiceError|null, responseMessage: src_protos_article_pb.ArticleReply|null) => void
+  ): UnaryResponse;
+  add(
+    requestMessage: src_protos_article_pb.AddReq,
+    callback: (error: ServiceError|null, responseMessage: src_protos_article_pb.ArticleReply|null) => void
   ): UnaryResponse;
 }
 
