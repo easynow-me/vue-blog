@@ -4,6 +4,7 @@ import Router, { RouteConfig } from 'vue-router';
 Vue.use(Router);
 
 import Layout from '@/layout/index.vue';
+import BlogLayout from '@/blogLayout/index.vue';
 import i18n from '@/lang';
 
 export const constantRoutes: RouteConfig[] = [
@@ -30,16 +31,16 @@ export const constantRoutes: RouteConfig[] = [
   },
   {
     path: '/',
-    component: Layout,
-    redirect: '/dashboard',
+    component: BlogLayout,
+    redirect: '/home',
     children: [
       {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index.vue'),
-        name: 'Dashboard',
+        path: 'home',
+        component: () => import('@/views/home/index.vue'),
+        name: 'Home',
         meta: {
-          title: i18n.t('route.dashboard'),
-          icon: 'dashboard',
+          title: i18n.t('route.home'),
+          icon: 'home',
           affix: true
         }
       }

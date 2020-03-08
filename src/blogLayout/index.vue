@@ -5,20 +5,23 @@
       class="drawer-bg"
       @click="handleClickOutside"
     />
+    <div class="main-container">
+      <app-main />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import RightPanel from '@/components/RightPanel/index.vue';
 import { Component } from 'vue-property-decorator';
 import { mixins } from 'vue-class-component';
 import ResizeMixin from '@/components/mixin/ResizeHandler';
+import { AppMain } from './components';
 import { AppModule, SettingsModule } from '@/store';
 import { DeviceType } from '@/store/modules/app';
 
 @Component({
   components: {
-    RightPanel
+    AppMain
   }
 })
 export default class BlogLayout extends mixins(ResizeMixin) {
