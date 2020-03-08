@@ -1,18 +1,18 @@
 // package: blog
 // file: src/protos/article.proto
 
-const src_protos_article_pb = require('./article_pb');
-const src_protos_pagedList_pb = require('./pagedList_pb');
-const grpc = require('@improbable-eng/grpc-web').grpc;
+var src_protos_article_pb = require("../../src/protos/article_pb");
+var src_protos_pagedList_pb = require("../../src/protos/pagedList_pb");
+var grpc = require("@improbable-eng/grpc-web").grpc;
 
-const Article = (function() {
+var Article = (function () {
   function Article() {}
-  Article.serviceName = 'blog.Article';
+  Article.serviceName = "blog.Article";
   return Article;
-})();
+}());
 
 Article.Query = {
-  methodName: 'Query',
+  methodName: "Query",
   service: Article,
   requestStream: false,
   responseStream: false,
@@ -27,24 +27,20 @@ function ArticleClient(serviceHost, options) {
   this.options = options || {};
 }
 
-ArticleClient.prototype.query = function query(
-  requestMessage,
-  metadata,
-  callback
-) {
+ArticleClient.prototype.query = function query(requestMessage, metadata, callback) {
   if (arguments.length === 2) {
     callback = arguments[1];
   }
-  const client = grpc.unary(Article.Query, {
+  var client = grpc.unary(Article.Query, {
     request: requestMessage,
     host: this.serviceHost,
     metadata: metadata,
     transport: this.options.transport,
     debug: this.options.debug,
-    onEnd: function(response) {
+    onEnd: function (response) {
       if (callback) {
         if (response.status !== grpc.Code.OK) {
-          const err = new Error(response.statusMessage);
+          var err = new Error(response.statusMessage);
           err.code = response.status;
           err.metadata = response.trailers;
           callback(err, null);
@@ -55,7 +51,7 @@ ArticleClient.prototype.query = function query(
     }
   });
   return {
-    cancel: function() {
+    cancel: function () {
       callback = null;
       client.close();
     }
@@ -63,3 +59,4 @@ ArticleClient.prototype.query = function query(
 };
 
 exports.ArticleClient = ArticleClient;
+

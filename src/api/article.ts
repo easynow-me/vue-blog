@@ -1,7 +1,9 @@
 import { ArticleClient } from '@/protos/article_pb_service';
 import { QueryReq, ArticleDto } from '@/protos/article_pb';
 
-const client = new ArticleClient('https://localhost:5001');
+const client = new ArticleClient(
+  process.env.BLOG_BASE_API || 'https://localhost:5001'
+);
 
 export class PagedList<T> {
   public pageNumber!: number;

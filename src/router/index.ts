@@ -43,6 +43,16 @@ export const constantRoutes: RouteConfig[] = [
           icon: 'home',
           affix: true
         }
+      },
+      {
+        path: 'article/:id',
+        component: () => import('@/views/article/index.vue'),
+        name: 'Article',
+        meta: {
+          title: i18n.t('route.article'),
+          icon: 'article',
+          affix: true
+        }
       }
     ]
   }

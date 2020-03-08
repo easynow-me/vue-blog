@@ -1,8 +1,10 @@
 <template>
-  <div class="dashboard-container">
+  <div class="home-container">
     <ul>
-      <li v-for="article in articleList.items" v-bind:key="article.title">
-        {{ article.title }}
+      <li v-for="article in articleList.items" v-bind:key="article.id">
+        <router-link :to="'/article/' + article.id">
+          {{ article.title }}
+        </router-link>
       </li>
     </ul>
   </div>
@@ -23,8 +25,9 @@ export default class Home extends Vue {
 
   private async mounted() {
     this.articleList = await queryArticle({
-      pagesize: 1,
-      pagenumber: 1
+      pagesize: 20,
+      pagenumber: 1,
+      id: ''
     });
   }
 }

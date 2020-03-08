@@ -1,9 +1,9 @@
 // package: blog
 // file: src/protos/article.proto
 
-import * as src_protos_article_pb from './article_pb';
-import * as src_protos_pagedList_pb from './pagedList_pb';
-import { grpc } from '@improbable-eng/grpc-web';
+import * as src_protos_article_pb from "../../src/protos/article_pb";
+import * as src_protos_pagedList_pb from "../../src/protos/pagedList_pb";
+import {grpc} from "@improbable-eng/grpc-web";
 
 type ArticleQuery = {
   readonly methodName: string;
@@ -19,12 +19,8 @@ export class Article {
   static readonly Query: ArticleQuery;
 }
 
-export type ServiceError = {
-  message: string;
-  code: number;
-  metadata: grpc.Metadata;
-};
-export type Status = { details: string; code: number; metadata: grpc.Metadata };
+export type ServiceError = { message: string, code: number; metadata: grpc.Metadata }
+export type Status = { details: string, code: number; metadata: grpc.Metadata }
 
 interface UnaryResponse {
   cancel(): void;
@@ -46,18 +42,9 @@ interface BidirectionalStream<ReqT, ResT> {
   write(message: ReqT): BidirectionalStream<ReqT, ResT>;
   end(): void;
   cancel(): void;
-  on(
-    type: 'data',
-    handler: (message: ResT) => void
-  ): BidirectionalStream<ReqT, ResT>;
-  on(
-    type: 'end',
-    handler: (status?: Status) => void
-  ): BidirectionalStream<ReqT, ResT>;
-  on(
-    type: 'status',
-    handler: (status: Status) => void
-  ): BidirectionalStream<ReqT, ResT>;
+  on(type: 'data', handler: (message: ResT) => void): BidirectionalStream<ReqT, ResT>;
+  on(type: 'end', handler: (status?: Status) => void): BidirectionalStream<ReqT, ResT>;
+  on(type: 'status', handler: (status: Status) => void): BidirectionalStream<ReqT, ResT>;
 }
 
 export class ArticleClient {
@@ -67,16 +54,11 @@ export class ArticleClient {
   query(
     requestMessage: src_protos_article_pb.QueryReq,
     metadata: grpc.Metadata,
-    callback: (
-      error: ServiceError | null,
-      responseMessage: src_protos_pagedList_pb.PagedList | null
-    ) => void
+    callback: (error: ServiceError|null, responseMessage: src_protos_pagedList_pb.PagedList|null) => void
   ): UnaryResponse;
   query(
     requestMessage: src_protos_article_pb.QueryReq,
-    callback: (
-      error: ServiceError | null,
-      responseMessage: src_protos_pagedList_pb.PagedList | null
-    ) => void
+    callback: (error: ServiceError|null, responseMessage: src_protos_pagedList_pb.PagedList|null) => void
   ): UnaryResponse;
 }
+

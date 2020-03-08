@@ -1,5 +1,5 @@
 export default {
-  title: 'Vue Admin',
+  title: 'EasyNow Blog',
   showSettings: true,
   tagsView: true,
   fixedHeader: false,
