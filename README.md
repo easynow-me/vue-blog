@@ -1,10 +1,16 @@
 ## 简介
-使用ElementUI、TypeScript、Grpc-Web实现个人博客，基本框架照搬[PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)，鉴于本人前端能力较弱，界面基本都是搬来搬去，如有侵权请告知。
+前端使用ElementUI、TypeScript、Grpc-Web实现个人博客，基本框架照搬 [PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
 
-## 示例站点
+后端使用ASP.NET Core 3.1、Grpc、Jwt、EF Core、Mysql
 
-[博客地址](https://www.easynow.me)
-[Grpc服务端](https://blog.easynow.me)
+服务器使用k3s搭建集群，Rancher作为管理面板
+
+blog二级域名直接解析至服务器，其余二级域名均使用Cloudfare作为CDN加速
+
+## 演示站点
+
+- [博客前端](https://www.easynow.me)
+- [Grpc后端](https://blog.easynow.me)
 
 
 ## Proto文件
