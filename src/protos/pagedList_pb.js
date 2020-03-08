@@ -1,9 +1,3 @@
-/* eslint-disable no-redeclare */
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable prettier/prettier */
-/* eslint-disable no-var */
-/* eslint-disable @typescript-eslint/no-var-requires */
 // source: src/protos/pagedList.proto
 /**
  * @fileoverview

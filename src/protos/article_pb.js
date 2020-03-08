@@ -1,9 +1,3 @@
-/* eslint-disable prefer-const */
-/* eslint-disable no-redeclare */
-/* eslint-disable no-var */
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/camelcase */
-/* eslint-disable @typescript-eslint/no-var-requires */
 // source: src/protos/article.proto
 /**
  * @fileoverview
