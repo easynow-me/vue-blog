@@ -23,9 +23,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { queryArticle, PageList } from '@/api/article';
+import { queryArticle } from '@/api/article';
 import { ArticleReply } from '@/protos/article_pb';
-import { md2Text } from '@/utils';
+import { md2Text, PageList } from '@/utils';
 
 @Component
 export default class Home extends Vue {

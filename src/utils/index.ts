@@ -1,4 +1,7 @@
 import * as jspb from 'google-protobuf';
+import { ResultReply } from '@/protos/resultReply_pb';
+import { PagedList } from '@/protos/pagedList_pb';
+import { grpc } from '@improbable-eng/grpc-web';
 
 /**
  * 格式化时间为字符串
@@ -169,4 +172,175 @@ export function copyValueToGrpcMsg(source: any, msg: jspb.Message) {
       }
     }
   }
+}
+
+/**
+ * 从ResultReply中获取数据
+ * @param reply
+ * @param deserializeBinary
+ */
+export function getDataFromResultReply<T extends jspb.Message>(
+  reply: ResultReply | null,
+  deserializeBinary: (bytes: Uint8Array) => T
+): T | null {
+  if (reply && reply.getCode()) {
+    const data = reply.getData();
+    if (data) {
+      const result = data.unpack(deserializeBinary, data.getTypeName());
+      if (result) {
+        return result;
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * 从PagedList中获取PageList
+ * @param pagedList
+ * @param deserializeBinary
+ */
+export function getPageListFromPagedList<T extends jspb.Message, TData>(
+  pagedList: PagedList | null,
+  deserializeBinary: (bytes: Uint8Array) => T
+): PageList<TData> | null {
+  if (pagedList && pagedList.getItemsList()) {
+    const list = pagedList.getItemsList();
+    if (list) {
+      const result = list.map(item => {
+        return (item.unpack(
+          deserializeBinary,
+          item.getTypeName()
+        ) as T).toObject() as TData;
+      });
+      if (result) {
+        return {
+          pageSize: pagedList.getPagesize(),
+          pageNumber: pagedList.getPagenumber(),
+          items: result
+        };
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * 从ResultReply中获取PageList
+ * @param reply
+ * @param deserializeBinary
+ */
+export function getPageListFromResultReply<T extends jspb.Message, TData>(
+  reply: ResultReply | null,
+  deserializeBinary: (bytes: Uint8Array) => T
+): PageList<TData> | null {
+  const data = getDataFromResultReply(reply, PagedList.deserializeBinary);
+  if (data) {
+    return getPageListFromPagedList<T, TData>(data, deserializeBinary);
+  }
+  return null;
+}
+
+/**
+ * 从ResultReply解析出PageList
+ * @param reply
+ * @param deserializeBinary
+ * @param resolveFn
+ * @param rejectFn
+ */
+export function resolvePageListFromResultReply<T extends jspb.Message, TData>(
+  reply: ResultReply | null,
+  deserializeBinary: (bytes: Uint8Array) => T,
+  resolveFn: (
+    value?: PageList<TData> | PromiseLike<PageList<TData>> | undefined
+  ) => void,
+  rejectFn: () => void
+) {
+  const data = getDataFromResultReply(reply, PagedList.deserializeBinary);
+  if (data) {
+    const list = getPageListFromPagedList<T, TData>(data, deserializeBinary);
+    if (list) {
+      resolveFn({
+        pageNumber: list.pageNumber,
+        pageSize: list.pageSize,
+        items: list.items
+      });
+      return;
+    }
+  }
+  rejectFn();
+}
+
+/**
+ * 获取PageList
+ * @param req
+ * @param method
+ * @param deserializeBinary
+ */
+export function getPageList<
+  T extends jspb.Message,
+  TReq extends jspb.Message,
+  TData
+>(
+  req: TReq,
+  method: (
+    req: TReq,
+    callback: (
+      error: { message: string; code: number; metadata: grpc.Metadata } | null,
+      responseMessage: ResultReply | null
+    ) => void
+  ) => { cancel(): void },
+  deserializeBinary: (bytes: Uint8Array) => T
+) {
+  return new Promise<PageList<TData>>((resolve, reject) => {
+    method(req, (err, resp) => {
+      resolvePageListFromResultReply<T, TData>(
+        resp,
+        deserializeBinary,
+        resolve,
+        () => {
+          reject(err);
+        }
+      );
+    });
+  });
+}
+
+/**
+ * 获取数据
+ * @param req
+ * @param method
+ * @param deserializeBinary
+ */
+export function getData<
+  T extends jspb.Message,
+  TReq extends jspb.Message,
+  TData
+>(
+  req: TReq,
+  method: (
+    req: TReq,
+    callback: (
+      error: { message: string; code: number; metadata: grpc.Metadata } | null,
+      responseMessage: ResultReply | null
+    ) => void
+  ) => { cancel(): void },
+  deserializeBinary: (bytes: Uint8Array) => T
+) {
+  return new Promise<TData>((resolve, reject) => {
+    method(req, (err, resp) => {
+      const data = getDataFromResultReply<T>(resp, deserializeBinary);
+      if (data) {
+        resolve(data.toObject() as TData);
+        return;
+      }
+      reject(err);
+    });
+  });
+}
+
+export class PageList<T> {
+  public pageNumber!: number;
+  public pageSize!: number;
+  public items!: T[];
 }

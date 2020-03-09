@@ -1,51 +1,49 @@
 import { ArticleClient } from '@/protos/article_pb_service';
-import { QueryReq, ArticleReply } from '@/protos/article_pb';
-import { copyValueToGrpcMsg } from '@/utils';
-import { PagedList } from '@/protos/pagedList_pb';
-import * as gpap from 'google-protobuf/google/protobuf/any_pb';
+import {
+  QueryReq,
+  ArticleReply,
+  AddReq,
+  EditReq,
+  DeleteReq
+} from '@/protos/article_pb';
+import { copyValueToGrpcMsg, getPageList, getData } from '@/utils';
 
 const client = new ArticleClient(
   process.env.VUE_APP_BLOG_BASE_API || 'https://localhost:5001'
 );
 
-export class PageList<T> {
-  public pageNumber!: number;
-  public pageSize!: number;
-  public items!: T[];
+export function queryArticle(query: QueryReq.AsObject) {
+  const req = new QueryReq();
+  copyValueToGrpcMsg(query, req);
+  return getPageList<ArticleReply, QueryReq, ArticleReply.AsObject>(
+    req,
+    client.query.bind(client),
+    ArticleReply.deserializeBinary
+  );
 }
 
-export function queryArticle(query: QueryReq.AsObject) {
-  return new Promise<PageList<ArticleReply.AsObject>>((resolve, reject) => {
-    const req = new QueryReq();
-    copyValueToGrpcMsg(query, req);
-    client.query(req, (err, resp) => {
-      if (resp && resp.getCode()) {
-        const data = resp.getData();
-        if (data) {
-          const list = data.unpack(
-            PagedList.deserializeBinary,
-            data.getTypeName()
-          );
-          if (list) {
-            resolve({
-              pageNumber: list.getPagenumber(),
-              pageSize: list.getPagesize(),
-              items: list
-                .getItemsList()
-                .map((item: gpap.Any) => {
-                  return (item.unpack(
-                    ArticleReply.deserializeBinary,
-                    item.getTypeName()
-                  ) as ArticleReply).toObject();
-                })
-                .filter((item: ArticleReply.AsObject) => {
-                  return item !== null;
-                })
-            });
-          }
-        }
-      }
-      reject(err);
-    });
-  });
+export function AddArticle(addReq: AddReq.AsObject) {
+  const req = new AddReq();
+  copyValueToGrpcMsg(addReq, req);
+  return getData<ArticleReply, AddReq, ArticleReply.AsObject>(
+    req,
+    client.add.bind(client),
+    ArticleReply.deserializeBinary
+  );
 }
+
+export function EditArticle(editReq: EditReq.AsObject) {
+  const req = new EditReq();
+  copyValueToGrpcMsg(editReq, req);
+  return getData<ArticleReply, EditReq, ArticleReply.AsObject>(
+    req,
+    client.edit.bind(client),
+    ArticleReply.deserializeBinary
+  );
+}
+
+// export function DeleteArticle(deleteReq: DeleteReq.AsObject) {
+//   const req = new DeleteReq();
+//   copyValueToGrpcMsg(deleteReq, req);
+//   return getData<ArticleReply,DeleteReq,ArticleReply.AsObject>(req,client.delete.bind(client),ArticleReply.deserializeBinary);
+// }
