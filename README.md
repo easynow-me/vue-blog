@@ -5,8 +5,6 @@
 
 服务器使用k3s搭建集群，Rancher作为管理面板
 
-blog二级域名直接解析至服务器，其余二级域名均使用Cloudfare作为CDN加速
-
 ## 演示站点
 
 - [博客前端](https://www.easynow.me)
