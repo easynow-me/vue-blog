@@ -14,21 +14,32 @@
 ## Proto文件
 
 article.protobuf
-```proto
-syntax = "proto3";
+```protobufsyntax = "proto3";
 
-import "pagedList.proto";
+import "src/protos/resultReply.proto";
 
-package blog;
+package EasyNow.Blog;
 
 service Article {
-  rpc Query (QueryReq) returns (blog.PagedList);
-  rpc Add (AddReq) returns (ArticleReply);
+  rpc Query (QueryReq) returns (EasyNow.Common.ResultReply);
+  rpc Add (AddReq) returns (EasyNow.Common.ResultReply);
+  rpc Edit (EditReq) returns (EasyNow.Common.ResultReply);
+  rpc Delete (DeleteReq) returns (EasyNow.Common.ResultReply);
 }
 
 message AddReq {
     string title = 1;
     string content = 2;
+}
+
+message EditReq {
+    string id = 1;
+    string title = 2;
+    string content = 3;
+}
+
+message DeleteReq {
+    string id = 1;
 }
 
 message QueryReq {
@@ -53,12 +64,26 @@ syntax = "proto3";
 
 import "google/protobuf/any.proto";
 
-package blog;
+package EasyNow.Common;
 
 message PagedList {
     int32 pageNumber = 1;
     int32 pageSize = 2;
     repeated google.protobuf.Any items = 3;
 }
+```
 
+resultReply.proto
+```protobuf
+syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+package EasyNow.Common;
+
+message ResultReply {
+    bool code = 1;
+    string msg = 2;
+    google.protobuf.Any data = 3;
+}
 ```

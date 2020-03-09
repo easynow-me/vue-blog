@@ -1,4 +1,4 @@
-// package: blog
+// package: EasyNow.Common
 // file: src/protos/pagedList.proto
 
 import * as jspb from "google-protobuf";

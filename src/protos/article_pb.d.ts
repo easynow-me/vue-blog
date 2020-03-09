@@ -1,8 +1,8 @@
-// package: blog
+// package: EasyNow.Blog
 // file: src/protos/article.proto
 
 import * as jspb from "google-protobuf";
-import * as src_protos_pagedList_pb from "../../src/protos/pagedList_pb";
+import * as src_protos_resultReply_pb from "../../src/protos/resultReply_pb";
 
 export class AddReq extends jspb.Message {
   getTitle(): string;
@@ -25,6 +25,54 @@ export namespace AddReq {
   export type AsObject = {
     title: string,
     content: string,
+  }
+}
+
+export class EditReq extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  getTitle(): string;
+  setTitle(value: string): void;
+
+  getContent(): string;
+  setContent(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): EditReq.AsObject;
+  static toObject(includeInstance: boolean, msg: EditReq): EditReq.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: EditReq, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): EditReq;
+  static deserializeBinaryFromReader(message: EditReq, reader: jspb.BinaryReader): EditReq;
+}
+
+export namespace EditReq {
+  export type AsObject = {
+    id: string,
+    title: string,
+    content: string,
+  }
+}
+
+export class DeleteReq extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DeleteReq.AsObject;
+  static toObject(includeInstance: boolean, msg: DeleteReq): DeleteReq.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DeleteReq, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DeleteReq;
+  static deserializeBinaryFromReader(message: DeleteReq, reader: jspb.BinaryReader): DeleteReq;
+}
+
+export namespace DeleteReq {
+  export type AsObject = {
+    id: string,
   }
 }
 

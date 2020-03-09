@@ -23,13 +23,13 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { queryArticle, PagedList } from '@/api/article';
+import { queryArticle, PageList } from '@/api/article';
 import { ArticleReply } from '@/protos/article_pb';
 import { md2Text } from '@/utils';
 
 @Component
 export default class Home extends Vue {
-  private articleList: PagedList<ArticleReply.AsObject> = {
+  private articleList: PageList<ArticleReply.AsObject> = {
     items: [],
     pageNumber: 1,
     pageSize: 1
