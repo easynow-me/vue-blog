@@ -1,3 +1,5 @@
+import * as jspb from 'google-protobuf';
+
 /**
  * 格式化时间为字符串
  * @param time 时间
@@ -140,5 +142,31 @@ export function removeClass(ele: HTMLElement, cls: string): void {
   if (hasClass(ele, cls)) {
     const reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
     ele.className = ele.className.replace(reg, ' ');
+  }
+}
+
+/**
+ * 移除markdown中的标记，只取文本
+ * @param md
+ */
+export function md2Text(md: string): string {
+  return md.replace(/#*.*#/g, '').replace(/[^a-z0-9\u4e00-\u9fa5]/, '');
+}
+
+/**
+ * 将对象的个属性值赋值到grpc的message对象
+ * @param source
+ * @param msg
+ */
+export function copyValueToGrpcMsg(source: any, msg: jspb.Message) {
+  for (const key in source) {
+    if (Object.prototype.hasOwnProperty.call(source, key)) {
+      const methodName = `set${key.substr(0, 1).toUpperCase()}${key
+        .substr(1)
+        .toLowerCase()}`;
+      if (typeof (msg as any)[methodName] === 'function') {
+        (msg as any)[methodName](source[key]);
+      }
+    }
   }
 }

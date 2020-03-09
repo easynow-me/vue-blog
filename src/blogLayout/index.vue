@@ -5,6 +5,7 @@
       class="drawer-bg"
       @click="handleClickOutside"
     />
+    <sidebar class="sidebar-container" />
     <div class="main-container">
       <app-main />
     </div>
@@ -15,13 +16,14 @@
 import { Component } from 'vue-property-decorator';
 import { mixins } from 'vue-class-component';
 import ResizeMixin from '@/components/mixin/ResizeHandler';
-import { AppMain } from './components';
+import { AppMain, Sidebar } from './components';
 import { AppModule, SettingsModule } from '@/store';
 import { DeviceType } from '@/store/modules/app';
 
 @Component({
   components: {
-    AppMain
+    AppMain,
+    Sidebar
   }
 })
 export default class BlogLayout extends mixins(ResizeMixin) {
