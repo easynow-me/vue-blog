@@ -6,7 +6,12 @@ import {
   EditReq,
   DeleteReq
 } from '@/protos/article_pb';
-import { copyValueToGrpcMsg, getPageList, getData } from '@/utils';
+import {
+  copyValueToGrpcMsg,
+  getPageList,
+  getData,
+  getResultReply
+} from '@/utils';
 
 const client = new ArticleClient(
   process.env.VUE_APP_BLOG_BASE_API || 'https://localhost:5001'
@@ -42,8 +47,8 @@ export function EditArticle(editReq: EditReq.AsObject) {
   );
 }
 
-// export function DeleteArticle(deleteReq: DeleteReq.AsObject) {
-//   const req = new DeleteReq();
-//   copyValueToGrpcMsg(deleteReq, req);
-//   return getData<ArticleReply,DeleteReq,ArticleReply.AsObject>(req,client.delete.bind(client),ArticleReply.deserializeBinary);
-// }
+export function DeleteArticle(deleteReq: DeleteReq.AsObject) {
+  const req = new DeleteReq();
+  copyValueToGrpcMsg(deleteReq, req);
+  return getResultReply<DeleteReq>(req, client.delete.bind(client));
+}

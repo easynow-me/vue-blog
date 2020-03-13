@@ -1,4 +1,4 @@
-// package: EasyNow.Blog
+// package: Blog
 // file: src/protos/article.proto
 
 import * as jspb from "google-protobuf";

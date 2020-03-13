@@ -1,4 +1,4 @@
-// package: EasyNow.Blog
+// package: Blog
 // file: src/protos/article.proto
 
 var src_protos_article_pb = require("../../src/protos/article_pb");
@@ -7,7 +7,7 @@ var grpc = require("@improbable-eng/grpc-web").grpc;
 
 var Article = (function () {
   function Article() {}
-  Article.serviceName = "EasyNow.Blog.Article";
+  Article.serviceName = "Blog.Article";
   return Article;
 }());
 

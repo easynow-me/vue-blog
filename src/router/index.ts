@@ -4,7 +4,6 @@ import Router, { RouteConfig } from 'vue-router';
 Vue.use(Router);
 
 import Layout from '@/layout/index.vue';
-import BlogLayout from '@/blogLayout/index.vue';
 import i18n from '@/lang';
 
 export const constantRoutes: RouteConfig[] = [
@@ -31,7 +30,7 @@ export const constantRoutes: RouteConfig[] = [
   },
   {
     path: '/',
-    component: BlogLayout,
+    component: Layout,
     redirect: '/home',
     children: [
       {

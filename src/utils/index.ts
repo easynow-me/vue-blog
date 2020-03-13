@@ -339,6 +339,27 @@ export function getData<
   });
 }
 
+export function getResultReply<TReq extends jspb.Message>(
+  req: TReq,
+  method: (
+    req: TReq,
+    callback: (
+      error: { message: string; code: number; metadata: grpc.Metadata } | null,
+      responseMessage: ResultReply | null
+    ) => void
+  ) => { cancel(): void }
+) {
+  return new Promise<ResultReply>((resolve, reject) => {
+    method(req, (err, resp) => {
+      if (resp) {
+        resolve(resp);
+        return;
+      }
+      reject(err);
+    });
+  });
+}
+
 export class PageList<T> {
   public pageNumber!: number;
   public pageSize!: number;

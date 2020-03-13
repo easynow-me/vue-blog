@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+import "src/protos/resultReply.proto";
+
+package Blog;
+
+service Article {
+  rpc Query (QueryReq) returns (Common.ResultReply);
+  rpc Add (AddReq) returns (Common.ResultReply);
+  rpc Edit (EditReq) returns (Common.ResultReply);
+  rpc Delete (DeleteReq) returns (Common.ResultReply);
+}
+
+message AddReq {
+    string title = 1;
+    string content = 2;
+}
+
+message EditReq {
+    string id = 1;
+    string title = 2;
+    string content = 3;
+}
+
+message DeleteReq {
+    string id = 1;
+}
+
+message QueryReq {
+  int32 pageNumber = 1;
+  int32 pageSize = 2;
+  string id = 3;
+}
+
+message ArticleReply {
+    string id = 1;
+    string title = 2;
+    string content = 3;
+    string updator = 4;
+    string createTime = 5;
+    string updateTime = 6;
+}

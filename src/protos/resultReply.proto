@@ -1,0 +1,11 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/any.proto";
+
+package Common;
+
+message ResultReply {
+    bool code = 1;
+    string msg = 2;
+    google.protobuf.Any data = 3;
+}

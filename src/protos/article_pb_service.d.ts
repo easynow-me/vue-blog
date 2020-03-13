@@ -1,4 +1,4 @@
-// package: EasyNow.Blog
+// package: Blog
 // file: src/protos/article.proto
 
 import * as src_protos_article_pb from "../../src/protos/article_pb";
