@@ -32,8 +32,8 @@ const store = new Vuex.Store<IRootState>({
     user: User,
     errorLog: ErrorLog,
     permission: Permission
-  },
-  plugins: [vuexLocal.plugin]
+  }
+  // plugins: [vuexLocal.plugin]
 });
 
 export const AppModule = getModule(App, store);

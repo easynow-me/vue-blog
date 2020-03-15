@@ -42,7 +42,7 @@ export default class Breadcrumb extends Vue {
         {
           path: '/dashboard',
           meta: {
-            title: 'Dashboard'
+            title: this.$t('route.dashboard')
           }
           // tslint:disable-next-line:no-object-literal-type-assertion
         } as RouteRecord

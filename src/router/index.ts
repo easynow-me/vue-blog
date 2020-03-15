@@ -31,15 +31,15 @@ export const constantRoutes: RouteConfig[] = [
   {
     path: '/',
     component: Layout,
-    redirect: '/home',
+    redirect: '/dashboard',
     children: [
       {
-        path: 'home',
-        component: () => import('@/views/home/index.vue'),
-        name: 'Home',
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index.vue'),
+        name: 'Dashboard',
         meta: {
-          title: i18n.t('route.home'),
-          icon: 'home',
+          title: i18n.t('route.dashboard'),
+          icon: 'dashboard',
           affix: true
         }
       },
@@ -50,7 +50,7 @@ export const constantRoutes: RouteConfig[] = [
         meta: {
           title: i18n.t('route.article'),
           icon: 'article',
-          affix: true
+          affix: false
         }
       }
     ]
